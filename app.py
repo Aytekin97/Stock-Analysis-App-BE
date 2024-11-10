@@ -21,6 +21,11 @@ def get_stock_data(symbol):
 def test_route():
     return jsonify({"message": "Test route working"})
 
+@app.route('/')
+def home():
+    return jsonify({"message": "Welcome to the Stock Analysis API"})
+
+
 
 if __name__ == '__main__':
     # Get the port number from the environment variable or default to 5000 for local development
