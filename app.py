@@ -6,12 +6,8 @@ import os
 
 app = Flask(__name__)
 CORS(app)
+
 API_KEY = os.getenv('API_KEY')
-
-symbol = 'TSLA'
-interval = '5min'
-url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={interval}&apikey={API_KEY}'
-
 
 @app.route('/api/stock/<symbol>', methods=['GET'])
 def get_stock_data(symbol):
@@ -22,4 +18,6 @@ def get_stock_data(symbol):
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Get the port number from the environment variable or default to 5000 for local development
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
