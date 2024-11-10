@@ -17,6 +17,11 @@ def get_stock_data(symbol):
     data = response.json()
     return jsonify(data)
 
+@app.route('/api/test', methods=['GET'])
+def test_route():
+    return jsonify({"message": "Test route working"})
+
+
 if __name__ == '__main__':
     # Get the port number from the environment variable or default to 5000 for local development
     port = int(os.environ.get("PORT", 5000))
