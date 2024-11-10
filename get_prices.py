@@ -1,6 +1,7 @@
 import requests
+import os
 
-API_KEY = 'RUR10MV03KZ9V50B'
+API_KEY = os.getenv("API_KEY")
 symbol = 'TSLA'
 interval = '5min'
 url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={interval}&apikey={API_KEY}'
