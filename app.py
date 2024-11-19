@@ -13,9 +13,25 @@ API_KEY = os.getenv('API_KEY')
 def get_stock_data(symbol):
     interval = '60min'
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={interval}&apikey={API_KEY}'
-    response = requests.get(url)
-    data = response.json()
-    return jsonify(data)
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+        
+        # Check if the response contains the expected data structure
+        data = response.json()
+        if "Time Series" in data or "Time Series (60min)" in data:
+            return jsonify(data)
+        else:
+            # Handle cases where the response does not contain expected keys
+            return jsonify({
+                "error": "Invalid API response. Please check your API key, symbol, or interval.",
+                "details": data
+            }), 400
+    except requests.exceptions.RequestException as e:
+        # Handle network or HTTP errors
+        return jsonify({"error": "Failed to fetch stock data.", "details": str(e)}), 500
+
 
 @app.route('/api/test', methods=['GET'])
 def test_route():
