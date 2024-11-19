@@ -11,7 +11,7 @@ API_KEY = os.getenv('API_KEY')
 
 @app.route('/api/stock/<symbol>', methods=['GET'])
 def get_stock_data(symbol):
-    interval = '5min'
+    interval = '60min'
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={interval}&apikey={API_KEY}'
     response = requests.get(url)
     data = response.json()
