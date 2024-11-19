@@ -3,6 +3,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import requests
 import os
+from loguru import logger
 
 app = Flask(__name__)
 CORS(app)
@@ -21,9 +22,12 @@ def get_stock_data(symbol):
         # Check if the response contains the expected data structure
         data = response.json()
         if "Time Series" in data or "Time Series (60min)" in data:
+            logger.info("Request successful")
             return jsonify(data)
         else:
             # Handle cases where the response does not contain expected keys
+            logger.error("error: Invalid API response. Please check your API key, symbol, or interval.")
+            logger.error(f"details: {data}")
             return jsonify({
                 "error": "Invalid API response. Please check your API key, symbol, or interval.",
                 "details": data
